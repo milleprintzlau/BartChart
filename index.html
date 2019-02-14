@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bart Chart</title>
+  </head>
+
+  <style>
+    /* basic styles */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    #container {
+      width: 100%;
+      height: 20vh;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: flex-end;
+      background-color: aquamarine;
+    }
+
+    #box {
+      height: 100%;
+      background-color: orange;
+      border: 2px solid black;
+      z-index: 40;
+      width: calc(100% / 40);
+    }
+  </style>
+
+  <body>
+    <div id="container"></div>
+
+    <template id="boxtemplate">
+      <div id="box"></div>
+    </template>
+
+    <script>
+      "use strict";
+
+      const counter = [];
+      let number = 0;
+      const max_length = 40;
+
+      window.addEventListener("DOMContentLoaded", init);
+
+      function init() {
+        console.log("init");
+
+        createBoxes();
+      }
+
+      function createBoxes() {
+        console.log("counter");
+
+        // add number to array
+        counter.unshift(number.toFixed(0));
+        console.log(counter);
+
+        const clone = document
+          .querySelector("#boxtemplate")
+          .content.cloneNode(true);
+
+        const box = clone.querySelector("#box");
+
+        let height = getRandomNumber() + "px";
+        console.log(height);
+        box.style.height = getRandomNumber() + "px";
+
+        const elm = document.querySelector("#container").append(clone);
+
+        // counter
+        number++;
+
+        // limit to - delete the last
+        if (counter.length > max_length) {
+          //Remove the first one
+          document.querySelector("#box").remove();
+        }
+
+        // timer function
+        setTimeout(createBoxes, 1000);
+      }
+
+      function getRandomNumber() {
+        const num = Math.random() * 100;
+        return num;
+      }
+    </script>
+  </body>
+</html>
